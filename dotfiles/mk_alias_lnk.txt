@@ -1,1 +1,0 @@
-[[ -r $HOME/.env && ! -f $HOME/.bash_aliases ]] && /bin/ln -fs $HOME/.env $HOME/.bash_aliases
