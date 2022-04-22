@@ -1,0 +1,34 @@
+https://bobbyhadz.com/blog/javascript-cannot-read-property-slice-of-undefined
+
+
+http://localhost:1337/uploads/a_bug_is_becoming_a_meme_on_the_internet_c383b716d7.jpg?updated_at=2022-04-14T16:57:24.781Z
+
+apollo: {
+    articles: gql`
+      query Articles {
+        articles {
+          data {
+            attributes {
+              title
+              slug
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+              category {
+                data {
+                  attributes {
+                    name
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  },

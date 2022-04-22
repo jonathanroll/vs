@@ -1,0 +1,12 @@
+[[ -r $HOME/.env && ! -f $HOME/.bash_aliases ]] && /bin/ln -fs $HOME/.env $HOME/.bash_aliases
+1. Ensure home directory contains copies of .env .alias and .paths
+2. .bashrc:
+	Insert (usually at or around line 100)...
+		if [ -r $HOME/.env ]; then
+			[[ ! -f $HOME/.bash_aliases ]] && /bin/ln -fs $HOME/.alias $HOME/.bash_aliases
+    			. $HOME/.env
+		fi
+	above...
+		if [ -f ~/.bash_aliases ]; then
+		    . ~/.bash_aliases
+		fi
