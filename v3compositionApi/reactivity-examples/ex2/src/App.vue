@@ -148,4 +148,6 @@ const doEdit = (e)=>{
   <p v-if="!items.length">
     Nothing to see here
   </p>
-</template>	
+</template>
+
+<style src="./main.css"></style>

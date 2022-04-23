@@ -21,5 +21,9 @@
     "create-strapi-app": "^4.1.8",
     "npm": "^8.6.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "vite": "^2.9.5",
+    "vue": "^3.2.33"
   }
 }
