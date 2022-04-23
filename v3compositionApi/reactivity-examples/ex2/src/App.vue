@@ -12,6 +12,24 @@ const items = ref([
   {id: 3, label: "20 cups"},
   {id: 4, label: "1 awesome vue course"},
 */
+  {
+    id: 1,
+    label: "10 party hats",
+    purchased: true,
+    highPriority: false
+  },
+  {
+    id: 2,
+    label: "2 board games",
+    purchased: true,
+    highPriority: false
+  },
+  {
+    id: 3,
+    label: "20 cups",
+    purchased: false,
+    highPriority: true
+  },
 ])
 /*
 // or as an object of objects
@@ -140,7 +158,15 @@ const doEdit = (e)=>{
     <li v-for="{ id, label } in items" :key="id">{{ label }}</li>
 				...another example allowing for printing the index
 		-->
-    <li v-for="({ id, label },index) in items" :key="id">
+<!-- 
+    <li v-for="({ id, label },index) in items"
+      :key="id">
+ -->
+    <li v-for="({ id, label, purchased, highPriority },index) in items"
+      :key="id"
+      class="static-class"
+      :class="{strikeout: purchased, priority: highPriority}">
+      
 			<!-- {{ index }} -->
 			{{ label }}
 		</li>
