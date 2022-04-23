@@ -6,30 +6,30 @@ const header = ref('Shopping List App')
 // as an array of objects
 const editing = ref(false)
 const items = ref([
-/*
-  {id: 1, label: "10 party hats"},
-  {id: 2, label: "2 board games"},
-  {id: 3, label: "20 cups"},
-  {id: 4, label: "1 awesome vue course"},
-*/
+  /*
+    {id: 1, label: "10 party hats"},
+    {id: 2, label: "2 board games"},
+    {id: 3, label: "20 cups"},
+    {id: 4, label: "1 awesome vue course"},
+  */
   {
     id: 1,
-    label: "10 party hats",
+    label: '10 party hats',
     purchased: true,
     highPriority: false
   },
   {
     id: 2,
-    label: "2 board games",
+    label: '2 board games',
     purchased: true,
     highPriority: false
   },
   {
     id: 3,
-    label: "20 cups",
+    label: '20 cups',
     purchased: false,
     highPriority: true
-  },
+  }
 ])
 /*
 // or as an object of objects
@@ -40,35 +40,43 @@ const items = ref({
 })
 */
 
-const newItem = ref("")
+const newItem = ref('')
 //const newItemLzy = ref("")
 //const newItemPriority = ref("")
 const newItemHighPriority = ref(false)
 //const iceCreamFlavors = ref([])
 
-// encapsulating the logic into a named method simplifies the 
+// encapsulating the logic into a named method simplifies the
 // code in the template
 // also note vue allows omitting the trailing '()' in named methods
-const saveItem = ()=>{
+const saveItem = () => {
   //items.push({id: items.length + 1, label: newItem})
   // use .value because vue uses proxies for reactive data
-  items.value.push({id: items.value.length + 1, label: newItem.value})
-	newItem.value = ""
+  items.value.push({
+    id: items.value.length + 1,
+    label: newItem.value,
+    purchased: false,
+    highPriority: newItemHighPriority.value
+  })
+  newItem.value = ''
+  newItemHighPriority.value = false
 }
-const doEdit = (e)=>{
+const doEdit = (e) => {
   editing.value = e
-  newItem.value = ""
+  newItem.value = ''
+}
+
+const togglePurchased = (item) => {
+  item.purchased = !item.purchased
 }
 </script>
 
 <template>
   <div class="header">
-	  <h1>{{ header }}</h1>
-    <button v-if="editing" class="btn" @click="doEdit(false)">
-      Cancel
-    </button>
-		<button v-else class="btn btn-primary" @click="doEdit(true)">
-			Add Item
+    <h1>{{ header }}</h1>
+    <button v-if="editing" class="btn" @click="doEdit(false)">Cancel</button>
+    <button v-else class="btn btn-primary" @click="doEdit(true)">
+      Add Item
     </button>
   </div>
   <!--
@@ -77,34 +85,26 @@ const doEdit = (e)=>{
         @:submit.prevent="items.push({id: items.length + 1, label: newItem})"
 	>
 -->
-  <form class="add-item-form"
-        v-if="editing"
-        @submit.prevent="saveItem">
-    
-
-  <!--
+  <form class="add-item-form" v-if="editing" @submit.prevent="saveItem">
+    <!--
   <input type="text" placeholder="Add an item">
 	-->
     <!--
   <input v-model.trim="newItem" v-on:keyup.enter="items.push({id: items.length + 1, label: newItem})" type="text" placeholder="Add an item">
 -->
-  <input
-         v-model.trim="newItem"
-         type="text"
-         placeholder="Add an item"
-	>
+    <input v-model.trim="newItem" type="text" placeholder="Add an item" />
 
     <!--
 	{{ newItem }}
 	-->
-  <!--
+    <!--
   <br>
   <br>
   <input v-model.lazy="newItemLzy" type="text" placeholder="Add an item">
   {{ newItemLzy }}
 	-->
 
-  <!-- Priority Radio Button
+    <!-- Priority Radio Button
   Priority:
   <label>
     <input type="radio" v-model="newItemPriority" value="low">
@@ -118,8 +118,8 @@ const doEdit = (e)=>{
   {{ newItemPriority }}
 	-->
 
-	<!-- Priority Select Dropdown -->
-  <!--
+    <!-- Priority Select Dropdown -->
+    <!--
   <label>
     Priority:
     <select v-model="newItemPriority">
@@ -130,24 +130,21 @@ const doEdit = (e)=>{
   <br>
   {{ newItemPriority }}
 -->
-  <!-- High Priority Checkbox -->
-  <label>
-  	<input type="checkbox" v-model="newItemHighPriority">
-    High Priority
-  </label>
-<!--
+    <!-- High Priority Checkbox -->
+    <label>
+      <input type="checkbox" v-model="newItemHighPriority" />
+      High Priority
+    </label>
+    <!--
     <button
           v-on:click="items.push({id: items.length + 1, label: newItem})"
           class="btn btn-primary">
 			    Save Item
   </button>
     -->
-  <button
-          :disabled="newItem.length === 0"
-          class="btn btn-primary">
-			    Save Item
-  </button>
-
+    <button :disabled="newItem.length === 0" class="btn btn-primary">
+      Save Item
+    </button>
   </form>
   <ul>
     <!--
@@ -158,22 +155,31 @@ const doEdit = (e)=>{
     <li v-for="{ id, label } in items" :key="id">{{ label }}</li>
 				...another example allowing for printing the index
 		-->
-<!-- 
+    <!-- 
     <li v-for="({ id, label },index) in items"
       :key="id">
  -->
-    <li v-for="({ id, label, purchased, highPriority },index) in items"
+    <!-- 
+    <li
+      v-for="({ id, label, purchased, highPriority }, index) in items"
+      @click="togglePurchased(items[index])"
       :key="id"
       class="static-class"
-      :class="{strikeout: purchased, priority: highPriority}">
-      
-			<!-- {{ index }} -->
-			{{ label }}
-		</li>
+      :class="{ strikeout: purchased, priority: highPriority }"
+    >
+ -->
+    <li
+      v-for="(item, index) in items"
+      @click="togglePurchased(item)"
+      :key="item.id"
+      class="static-class"
+      :class="{ strikeout: item.purchased, priority: item.highPriority }"
+    >
+      <!-- {{ index }} -->
+      {{ item.label }}
+    </li>
   </ul>
-  <p v-if="!items.length">
-    Nothing to see here
-  </p>
+  <p v-if="!items.length">Nothing to see here</p>
 </template>
 
 <style src="./main.css"></style>
