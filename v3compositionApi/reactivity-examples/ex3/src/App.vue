@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const header = ref('Shopping List App')
+// const inputCharCount = computed(() => {
+//   return newItem.value.length
+// })
+
 const editing = ref(false)
 const items = ref([
   {
@@ -23,6 +27,15 @@ const items = ref([
     highPriority: true
   }
 ])
+
+// traditional multi-line function
+// const reversedItems = computed(() => {
+//   //return items.value.reverse()  // Bad!  alters the original array
+//   return [...items.value].reverse()  // Good!  alters only the cloned array
+// })
+
+// shorthand inferred return type:
+const reversedItems = computed(() => [...items.value].reverse())
 
 const newItem = ref('')
 const newItemHighPriority = ref(false)
@@ -65,10 +78,19 @@ const togglePurchased = (item) => {
       Save Item
     </button>
   </form>
+  <!-- <p class="counter">{{ inputCharCount }}</p> -->
   <ul>
-
+<!--
     <li
       v-for="(item, index) in items"
+      @click="togglePurchased(item)"
+      :key="item.id"
+      class="static-class"
+      :class="{ strikeout: item.purchased, priority: item.highPriority }"
+    >
+-->
+    <li
+      v-for="(item, index) in reversedItems"
       @click="togglePurchased(item)"
       :key="item.id"
       class="static-class"
