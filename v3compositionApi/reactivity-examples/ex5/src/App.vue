@@ -1,18 +1,58 @@
-<script setup>
-import { ref, reactive } from 'vue'
+<template>
+<h1>{{name}}</h1>
 
-const state = reactive({count: 0, iLable: 'Increment'})
-const increment = () => state.count++
-const decrement = () => state.count--
+<button @click="placeOrder">Place Order</button>
+
+<YummyMeal name="Hamburger 🍔" :price="5" @addToCart="addItemToCart"/>
+
+</template>
+
+<script>
+import { createDOMCompilerError } from "@vue/compiler-dom"
+import YummyMealVue from "./components/YummyMeal.vue"
+import { ref } from "vue"
+
+export default {
+	components: {
+		YummyMeal: YummyMealVue,
+	},
+  setup() {
+		const name = ref("The Snazzy Burger")
+
+		// traditional function syntax
+		/*
+		function placeOrder() {
+			alert(`Order for ${name} placed!`)
+		}
+		*/
+
+		// arrow function syntax
+		const placeOrder = () => alert(`Order for ${name} placed!`)
+		
+		const addItemToCart = (item) => alert(`${item} added to cart!`)
+
+		return {
+		  name,
+		  placeOrder,
+		  addItemToCart
+	  }
+  },
+  // 'created()' Hook
+  /*
+  created() {
+	  console.log("App created:", this.name)	
+  },
+  */
+}
 </script>
 
-<template>
-<h1>{{ state.count }}</h1>
-<!-- <button @click="state.count++"> -->
-<button @click="increment">
-{{ state.iLable }}
-</button>
-<button @click="decrement">
-Decrement
-</button>
-</template>
+<style>
+#app {
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #2c3e50;
+	margin-top: 60px;
+}	
+</style>
