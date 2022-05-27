@@ -11,4 +11,4 @@ EXPOSE 8080
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-     && apt-get -y install --no-install-recommends iputils-ping
+     && apt-get -y install --no-install-recommends iputils-ping traceroute
